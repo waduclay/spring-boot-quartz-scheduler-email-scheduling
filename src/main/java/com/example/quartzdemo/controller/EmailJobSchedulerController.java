@@ -6,7 +6,6 @@ import com.example.quartzdemo.payload.ScheduleEmailResponse;
 import org.quartz.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,9 +20,11 @@ import java.util.UUID;
 @RestController
 public class EmailJobSchedulerController {
     private static final Logger logger = LoggerFactory.getLogger(EmailJobSchedulerController.class);
+    private final Scheduler scheduler;
 
-    @Autowired
-    private Scheduler scheduler;
+    public EmailJobSchedulerController(Scheduler scheduler) {
+        this.scheduler = scheduler;
+    }
 
     @PostMapping("/scheduleEmail")
     public ResponseEntity<ScheduleEmailResponse> scheduleEmail(@Valid @RequestBody ScheduleEmailRequest scheduleEmailRequest) {
